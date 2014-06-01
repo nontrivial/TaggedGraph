@@ -4,6 +4,7 @@ package taggedgraph;
  * Created by Nick on 6/2/14.
  */
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -29,4 +30,10 @@ public interface Graph {
     public void deleteEdge(int a, int b);
 
     public List<Node> getAllNodes();
+
+    public List<Node> searchByTag(Collection<String> tags);
+
+    public List<Node> searchByTitle(String text);
+
+    public List<Node> searchByContent(String text);
 }

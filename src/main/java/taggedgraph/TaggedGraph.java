@@ -1,6 +1,5 @@
 package taggedgraph;
 
-import javax.swing.text.html.parser.TagElement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.stream.Collectors;
  * Created by Nick on 6/2/14.
  */
 public class TaggedGraph implements Graph {
+
 
     private int numNodes = 0;
     private ArrayList<Node> nodes;
@@ -82,5 +82,25 @@ public class TaggedGraph implements Graph {
         for (int i = 0; i < nodes.size(); i++) {
             newEdges.add(edges.get(i).stream().map(a -> indexMap[a]).collect(Collectors.toCollection(ArrayList::new)));
         }
+    }
+
+    //TODO: Create indices and searching
+    public void createIndices() {
+
+    }
+
+    @Override
+     public List<Node> searchByTag(Collection<String> tags) {
+        return null;
+    }
+
+    @Override
+    public List<Node> searchByTitle(String text) {
+        return null;
+    }
+
+    @Override
+    public List<Node> searchByContent(String text) {
+        return null;
     }
 }
