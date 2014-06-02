@@ -4,7 +4,7 @@ package taggedgraph;
  * Created by Nick on 6/2/14.
  */
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,9 +31,17 @@ public interface Graph {
 
     public List<Node> getAllNodes();
 
-    public List<Node> searchByTag(Collection<String> tags);
+    public ArrayList<NodeSearchResult> textSearch(String text);
 
-    public List<Node> searchByTitle(String text);
+    public class NodeSearchResult {
+        int score = 0;
+        int titleIndex = 0;
+        ArrayList<Integer> titleHits = new ArrayList<Integer>();
+        ArrayList<Integer> contentHits = new ArrayList<Integer>();
+        ArrayList<Integer> tagHits = new ArrayList<Integer>();
 
-    public List<Node> searchByContent(String text);
+        public void score() {
+
+        }
+    }
 }

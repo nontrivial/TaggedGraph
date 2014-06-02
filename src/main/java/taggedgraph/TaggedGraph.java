@@ -2,6 +2,7 @@ package taggedgraph;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ public class TaggedGraph implements Graph {
     private int numNodes = 0;
     private ArrayList<Node> nodes;
     private ArrayList<ArrayList<Integer>> edges;
+    private HashMap<String, ArrayList<Integer>> tagIndex;
 
     public TaggedGraph(Collection<Node> nodes, List<ArrayList<Integer>> edges) {
         numNodes = nodes.size();
@@ -84,23 +86,37 @@ public class TaggedGraph implements Graph {
         }
     }
 
-    //TODO: Create indices and searching
+    //TODO: Create indices
     public void createIndices() {
 
     }
 
     @Override
-     public List<Node> searchByTag(Collection<String> tags) {
-        return null;
+    public ArrayList<NodeSearchResult> textSearch(String text) {
+
+        ArrayList<NodeSearchResult> hits = new ArrayList<NodeSearchResult>();
+
+        for (Node n : getAllNodes()) {
+            KMP searcher = new KMP(text);
+            NodeSearchResult sr = new NodeSearchResult();
+
+            sr.titleHits = searchString(searcher, n.getTitle());
+            sr.contentHits = searchString(searcher, n.getContent());
+            sr.tagHits = searchString(searcher, n.getTags().stream().collect(Collectors.joining(",")));
+
+            sr.score();
+            hits.add(sr);
+        }
+        return hits;
     }
 
-    @Override
-    public List<Node> searchByTitle(String text) {
-        return null;
-    }
-
-    @Override
-    public List<Node> searchByContent(String text) {
-        return null;
+    private ArrayList<Integer> searchString(KMP searcher, String sourceText) {
+        ArrayList<Integer> hitsIndex = new ArrayList<Integer>();
+        int counter = searcher.search(sourceText);
+        while (counter < sourceText.length()) {
+            hitsIndex.add(counter);
+            counter = searcher.search(sourceText.substring(counter));
+        }
+        return hitsIndex;
     }
 }
